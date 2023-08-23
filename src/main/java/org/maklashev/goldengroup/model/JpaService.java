@@ -4,6 +4,8 @@ import org.maklashev.goldengroup.model.entity.Shift;
 import org.maklashev.goldengroup.model.entity.TradeMark;
 import org.maklashev.goldengroup.model.entity.Types;
 import org.maklashev.goldengroup.model.entity.gypsumboard.BoardType;
+import org.maklashev.goldengroup.model.entity.gypsumboard.Thickness;
+import org.maklashev.goldengroup.model.entity.gypsumboard.Width;
 
 import java.util.List;
 
@@ -27,5 +29,15 @@ public interface JpaService {
     List<BoardType> getAllBoardTypes();
     BoardType getBoardTypeById(int id);
     void SaveBoardType(BoardType boardType);
+
+    //Thickness
+    List<Thickness> getAllThickness();
+    Thickness getThicknessById(int id);
+    void SaveThickness(Thickness thickness);
+
+    //Width
+    List<Width> getAllWidth();
+    Width getWidthById(int id);
+    void SaveWidth(Width width);
 
 }
