@@ -7,6 +7,7 @@ import lombok.Data;
 @Entity
 @Table(name = "board_types")
 public class BoardType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

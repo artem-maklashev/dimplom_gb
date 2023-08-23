@@ -3,6 +3,7 @@ package org.maklashev.goldengroup;
 import org.maklashev.goldengroup.model.MyService;
 import org.maklashev.goldengroup.model.entity.Shift;
 import org.maklashev.goldengroup.model.entity.Types;
+import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
@@ -37,6 +38,11 @@ public class ShiftConsoleReader {
         System.out.println("мена с индексом 1: " + shift);
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(400, 300));
+
+        List<GypsumBoard> gypsumBoards = myService.getAllGypsumBoards();
+        for (GypsumBoard gb: gypsumBoards) {
+            System.out.println(gb);
+        }
 
         frame.getContentPane().add(scrollPane);
         frame.pack();

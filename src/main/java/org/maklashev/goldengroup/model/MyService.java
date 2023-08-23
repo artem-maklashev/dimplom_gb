@@ -5,6 +5,7 @@ import org.maklashev.goldengroup.model.entity.Shift;
 import org.maklashev.goldengroup.model.entity.TradeMark;
 import org.maklashev.goldengroup.model.entity.Types;
 import org.maklashev.goldengroup.model.entity.gypsumboard.BoardType;
+import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Thickness;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Width;
 import org.maklashev.goldengroup.model.repositories.*;
@@ -31,14 +32,18 @@ public class MyService implements JpaService {
     @Autowired
     private final WidthRepository widthRepository;
 
+    @Autowired
+    private final GypsumBoardRepository gypsumBoardRepository;
+
     public MyService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository,
-                     BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository) {
+                     BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository) {
         this.repository = repository;
         this.typesRepository = typesRepository;
         this.tradeMarkRepository = tradeMarkRepository;
         this.boardTypeRepository = boardTypeRepository;
         this.thicknessRepository = thicknessRepository;
         this.widthRepository = widthRepository;
+        this.gypsumBoardRepository = gypsumBoardRepository;
     }
 
 //    @Autowired
@@ -140,5 +145,10 @@ public class MyService implements JpaService {
     @Override
     public void SaveWidth(Width width) {
         widthRepository.save(width);
+    }
+
+    @Override
+    public List<GypsumBoard> getAllGypsumBoards() {
+        return gypsumBoardRepository.findAll();
     }
 }

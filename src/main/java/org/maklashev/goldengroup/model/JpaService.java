@@ -4,6 +4,7 @@ import org.maklashev.goldengroup.model.entity.Shift;
 import org.maklashev.goldengroup.model.entity.TradeMark;
 import org.maklashev.goldengroup.model.entity.Types;
 import org.maklashev.goldengroup.model.entity.gypsumboard.BoardType;
+import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Thickness;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Width;
 
@@ -40,4 +41,9 @@ public interface JpaService {
     Width getWidthById(int id);
     void SaveWidth(Width width);
 
+    //Length
+    //TO DO
+
+    //GypsumBoard
+    List<GypsumBoard> getAllGypsumBoards();
 }
