@@ -9,10 +9,10 @@ import org.maklashev.goldengroup.model.entity.Product;
 @Data
 @Entity
 @Table(name = "gypsum_board")
-@DiscriminatorValue("GypsumBoard")
+//@DiscriminatorValue("GypsumBoard")
 public class GypsumBoard extends Product {
     @ManyToOne
-    @JoinColumn(name = "board_type_id")
+    @JoinColumn(name = "board_types_id")
     private BoardType boardType;
 
     @ManyToOne
@@ -30,6 +30,18 @@ public class GypsumBoard extends Product {
     @ManyToOne
     @JoinColumn(name = "length_id")
     private Length length;
+
+    @Override
+    public String toString() {
+        return  getId() + " " +
+                getType().getName() + " " +
+                getTradeMark().getName() + " тип " +
+                boardType.getName() + "-" +
+                edge.getName() + " " +
+                thickness.getValue() + "-" +
+                width.getValue() + "-" +
+                length.getValue() ;
+    }
 }
 
 
