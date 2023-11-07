@@ -73,7 +73,7 @@ public class MyService implements JpaService {
     }
 
     @Override
-    public Types getTypeById(Long id) {
+    public Types getTypeById(int id) {
         Optional<Types> optionalTypes = typesRepository.findById(id);
         return optionalTypes.orElse(null);
     }

@@ -18,7 +18,7 @@ public interface JpaService {
 
     //Types
     List<Types> getAllTypes();
-    Types getTypeById(Long id);
+    Types getTypeById(int id);
     void SaveType(Types type);
 
     //TradeMark
