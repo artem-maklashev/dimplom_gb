@@ -12,6 +12,7 @@ import org.maklashev.goldengroup.model.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -150,5 +151,10 @@ public class MyService implements JpaService {
     @Override
     public List<GypsumBoard> getAllGypsumBoards() {
         return gypsumBoardRepository.findAll();
+    }
+
+    @Override
+    public List<GypsumBoard> getAllGypsumBoardsByDate(Date date) {
+        return gypsumBoardRepository.findBy;
     }
 }

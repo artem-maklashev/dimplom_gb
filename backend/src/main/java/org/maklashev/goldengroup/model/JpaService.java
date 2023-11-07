@@ -8,6 +8,7 @@ import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Thickness;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Width;
 
+import java.util.Date;
 import java.util.List;
 
 public interface JpaService {
@@ -46,4 +47,6 @@ public interface JpaService {
 
     //GypsumBoard
     List<GypsumBoard> getAllGypsumBoards();
+
+    List<GypsumBoard> getAllGypsumBoardsByDate(Date date);
 }
