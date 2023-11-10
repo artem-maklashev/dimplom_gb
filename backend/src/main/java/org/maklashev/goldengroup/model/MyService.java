@@ -8,13 +8,17 @@ import org.maklashev.goldengroup.model.entity.gypsumboard.BoardType;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Thickness;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Width;
+import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MyService implements JpaService {
@@ -36,8 +40,15 @@ public class MyService implements JpaService {
     @Autowired
     private final GypsumBoardRepository gypsumBoardRepository;
 
+    @Autowired
+    private final BoardProductionRepository boardProductionRepository;
+
+    @Autowired
+    private final ProductionListRepository productionListRepository;
+
+
     public MyService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository,
-                     BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository) {
+                     BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository, ProductionListRepository productionListRepository) {
         this.repository = repository;
         this.typesRepository = typesRepository;
         this.tradeMarkRepository = tradeMarkRepository;
@@ -45,6 +56,8 @@ public class MyService implements JpaService {
         this.thicknessRepository = thicknessRepository;
         this.widthRepository = widthRepository;
         this.gypsumBoardRepository = gypsumBoardRepository;
+        this.boardProductionRepository = boardProductionRepository;
+        this.productionListRepository = productionListRepository;
     }
 
 //    @Autowired
@@ -154,7 +167,15 @@ public class MyService implements JpaService {
     }
 
     @Override
-    public List<GypsumBoard> getAllGypsumBoardsByDate(Date date) {
-        return gypsumBoardRepository.findBy;
+    public List<GypsumBoard> getAllGypsumBoardsByDate(int monthIndex, int year) {
+        LocalDateTime startDate = LocalDate.of(year, monthIndex, 1).atTime(8,0);
+        LocalDateTime endDate = LocalDate.of(year, monthIndex + 1, 1).atTime(8,0);
+        List<Integer> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
+        System.out.println("Найдено " + ids.size() + "записей из productionLog\n" + ids.get(0) );
+        List<BoardProduction> boardProductions = boardProductionRepository.findAllByProductionListIdIn(ids);
+        System.out.println("Получен список из " + boardProductions.size() + " записей");
+        return boardProductions.stream()
+                .map(BoardProduction::getGypsumBoard) // предположим, что есть метод getGypsumBoard() в BoardProduction
+                .collect(Collectors.toList());
     }
 }

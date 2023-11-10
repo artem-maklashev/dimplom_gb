@@ -12,10 +12,10 @@ public class BoardProduction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "productionLog_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "production_log_id")
     private ProductionList productionList;
 
     @ManyToOne

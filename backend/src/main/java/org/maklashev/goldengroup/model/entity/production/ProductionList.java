@@ -14,7 +14,7 @@ public class ProductionList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "production_start")
     private LocalDateTime productionStart;

@@ -13,7 +13,7 @@ public abstract class Product {
 
     @ManyToOne
     @JoinColumn(name = "types_id")
-    private Types type;
+    private Types pType;
 
     @ManyToOne
     @JoinColumn(name = "trade_mark_id")

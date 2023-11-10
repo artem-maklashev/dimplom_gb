@@ -48,5 +48,6 @@ public interface JpaService {
     //GypsumBoard
     List<GypsumBoard> getAllGypsumBoards();
 
-    List<GypsumBoard> getAllGypsumBoardsByDate(Date date);
+    List<GypsumBoard>getAllGypsumBoardsByDate(int monthIndex, int year);
+
 }
