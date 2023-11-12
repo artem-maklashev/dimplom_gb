@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BoardProductionRepository extends JpaRepository<BoardProduction, Long> {
 
-    List<BoardProduction> findAllByGypsumBoardIdIn(List<Integer> gypsumBoardIds);
+//    List<BoardProduction> findAllByGypsumBoardIdIn(List<Integer> gypsumBoardIds);
 
     List<BoardProduction> findAllByProductionListIdIn(List<Integer> ids);
 }

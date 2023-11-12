@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -167,7 +166,7 @@ public class MyService implements JpaService {
     }
 
     @Override
-    public List<GypsumBoard> getAllGypsumBoardsByDate(int monthIndex, int year) {
+    public List<BoardProduction> getAllGypsumBoardsByDate(int monthIndex, int year) {
         LocalDateTime startDate = LocalDate.of(year, monthIndex, 1).atTime(8,0);
         LocalDateTime endDate = LocalDate.of(year, monthIndex + 1, 1).atTime(8,0);
         List<Integer> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
@@ -175,7 +174,10 @@ public class MyService implements JpaService {
         List<BoardProduction> boardProductions = boardProductionRepository.findAllByProductionListIdIn(ids);
         System.out.println("Получен список из " + boardProductions.size() + " записей");
         return boardProductions.stream()
-                .map(BoardProduction::getGypsumBoard) // предположим, что есть метод getGypsumBoard() в BoardProduction
-                .collect(Collectors.toList());
+                .filter(e ->e.getGypsumBoardCategory().getId() == 2 || e.getGypsumBoardCategory().getId() == 3).collect(Collectors.toList());
+
+//        return boardProductions.stream()
+//                .map(BoardProduction::getGypsumBoard) // предположим, что есть метод getGypsumBoard() в BoardProduction
+//                .collect(Collectors.toList());
     }
 }

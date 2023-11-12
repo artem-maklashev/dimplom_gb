@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.maklashev.goldengroup.model.MyService;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
+import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class GypumBoardController {
     }
 
     @GetMapping("/allboard")
-    public List<GypsumBoard> allBoard(
+    public List<BoardProduction> allBoard(
             @RequestParam(name = "month", defaultValue = "1") int month,
             @RequestParam(name = "year", defaultValue = "2023") int year) {
 

@@ -28,4 +28,6 @@ public class BoardProduction {
 
     @Column(name = "value")
     private float value;
+
+
 }
