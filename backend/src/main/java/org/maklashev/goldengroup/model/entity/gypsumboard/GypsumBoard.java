@@ -33,8 +33,7 @@ public class GypsumBoard extends Product {
 
     @Override
     public String toString() {
-        return  getId() + " " +
-                getPType().getName() + " " +
+        return  getPType().getName() + " " +
                 getTradeMark().getName() + " тип " +
                 boardType.getName() + "-" +
                 edge.getName() + " " +

@@ -27,27 +27,27 @@ public interface JpaService {
     TradeMark getTradeMarkById(int id);
     void SaveTradeMark(TradeMark tradeMark);
 
-    //BoardType
-    List<BoardType> getAllBoardTypes();
-    BoardType getBoardTypeById(int id);
-    void SaveBoardType(BoardType boardType);
-
-    //Thickness
-    List<Thickness> getAllThickness();
-    Thickness getThicknessById(int id);
-    void SaveThickness(Thickness thickness);
-
-    //Width
-    List<Width> getAllWidth();
-    Width getWidthById(int id);
-    void SaveWidth(Width width);
-
-    //Length
-    //TO DO
-
-    //GypsumBoard
-    List<GypsumBoard> getAllGypsumBoards();
-
-    List<GypsumBoard>getAllGypsumBoardsByDate(int monthIndex, int year);
+//    //BoardType
+//    List<BoardType> getAllBoardTypes();
+//    BoardType getBoardTypeById(int id);
+//    void SaveBoardType(BoardType boardType);
+//
+//    //Thickness
+//    List<Thickness> getAllThickness();
+//    Thickness getThicknessById(int id);
+//    void SaveThickness(Thickness thickness);
+//
+//    //Width
+//    List<Width> getAllWidth();
+//    Width getWidthById(int id);
+//    void SaveWidth(Width width);
+//
+//    //Length
+//    //TO DO
+//
+//    //GypsumBoard
+//    List<GypsumBoard> getAllGypsumBoards();
+//
+//    List<GypsumBoard>getAllGypsumBoardsByDate(int monthIndex, int year);
 
 }
