@@ -104,14 +104,18 @@ public class GypsumBoardService extends MyService {
     }
 
 
-    public List<GypsumBoardProductionData> getAllGypsumBoardsByDate(int monthIndex, int year) {
-        LocalDateTime startDate = LocalDate.of(year, monthIndex, 1).atTime(8,0);
-        LocalDateTime endDate = LocalDate.of(year, monthIndex + 1, 1).atTime(8,0);
+    public List<GypsumBoardProductionData> getAllGypsumBoardsByDate(int day, int monthIndex, int year) {
+        LocalDateTime startDate = LocalDate.of(year, monthIndex, 1).atTime(8,0);//
+        LocalDateTime endDate = LocalDate.of(year, monthIndex, day).atTime(8,0);
+        System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
         List<Integer> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
-        System.out.println("Найдено " + ids.size() + "записей из productionLog\n" + ids.get(0) );
+        System.out.println("Найдено " + ids.size() + "записей из productionLog\n");
+        if (ids.size() > 0 ) {
         List<BoardProduction> boardProductions = boardProductionRepository.findAllByProductionListIdIn(ids);
         System.out.println("Получен список из " + boardProductions.size() + " записей");
         return getProductionData(boardProductions);
+        }
+        return List.of(new GypsumBoardProductionData("Нет данных", 0, 0, 0, 0));
     }
     private List<GypsumBoardProductionData> getProductionData(List<BoardProduction> boardProductions) {
         Map<String, GypsumBoardProductionData> dataMap = new HashMap<>();
@@ -122,7 +126,9 @@ public class GypsumBoardService extends MyService {
 
             dataMap.putIfAbsent(name, new GypsumBoardProductionData(name, 0, 0, 0, 0));
 
-            if (bp.getGypsumBoardCategory().getId() == 2 || bp.getGypsumBoardCategory().getId() == 3) {
+            if (bp.getGypsumBoardCategory().getId() == 2
+                    || bp.getGypsumBoardCategory().getId() == 3
+                    || bp.getGypsumBoardCategory().getId() == 4) {
                 fact = bp.getValue();
             } else if (bp.getGypsumBoardCategory().getId() == 6) {
                 defective = bp.getValue();

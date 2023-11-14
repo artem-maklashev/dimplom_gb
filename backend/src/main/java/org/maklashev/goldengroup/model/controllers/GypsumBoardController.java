@@ -22,10 +22,11 @@ public class GypsumBoardController {
 
     @GetMapping("/allboard")
     public List<GypsumBoardProductionData> allBoard(
+            @RequestParam(name = "day", defaultValue = "1") int day,
             @RequestParam(name = "month", defaultValue = "1") int month,
             @RequestParam(name = "year", defaultValue = "2023") int year) {
 
-        return gypsumBoardService.getAllGypsumBoardsByDate(month, year);
+        return gypsumBoardService.getAllGypsumBoardsByDate(day, month, year);
     }
 //    @PostMapping("/api/allboard")
 //    public List<GypsumBoard> boardByDate(@RequestBody Date date) {
