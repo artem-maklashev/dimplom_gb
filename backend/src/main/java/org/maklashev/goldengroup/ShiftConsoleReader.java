@@ -4,6 +4,7 @@ import org.maklashev.goldengroup.model.MyService;
 import org.maklashev.goldengroup.model.entity.Shift;
 import org.maklashev.goldengroup.model.entity.Types;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
+import org.maklashev.goldengroup.service.GypsumBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.swing.*;
@@ -14,10 +15,10 @@ import java.util.List;
 
 @Component
 public class ShiftConsoleReader {
-    private final MyService myService;
+    private final GypsumBoardService myService;
 
     @Autowired
-    public ShiftConsoleReader(MyService myService) {
+    public ShiftConsoleReader(GypsumBoardService myService) {
         this.myService = myService;
     }
 

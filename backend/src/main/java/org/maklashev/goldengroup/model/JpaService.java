@@ -7,8 +7,8 @@ import org.maklashev.goldengroup.model.entity.gypsumboard.BoardType;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Thickness;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Width;
-import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 
+import java.util.Date;
 import java.util.List;
 
 public interface JpaService {
@@ -27,27 +27,27 @@ public interface JpaService {
     TradeMark getTradeMarkById(int id);
     void SaveTradeMark(TradeMark tradeMark);
 
-    //BoardType
-    List<BoardType> getAllBoardTypes();
-    BoardType getBoardTypeById(int id);
-    void SaveBoardType(BoardType boardType);
-
-    //Thickness
-    List<Thickness> getAllThickness();
-    Thickness getThicknessById(int id);
-    void SaveThickness(Thickness thickness);
-
-    //Width
-    List<Width> getAllWidth();
-    Width getWidthById(int id);
-    void SaveWidth(Width width);
-
-    //Length
-    //TO DO
-
-    //GypsumBoard
-    List<GypsumBoard> getAllGypsumBoards();
-
-    List<BoardProduction> getAllGypsumBoardsByDate(int monthIndex, int year);
+//    //BoardType
+//    List<BoardType> getAllBoardTypes();
+//    BoardType getBoardTypeById(int id);
+//    void SaveBoardType(BoardType boardType);
+//
+//    //Thickness
+//    List<Thickness> getAllThickness();
+//    Thickness getThicknessById(int id);
+//    void SaveThickness(Thickness thickness);
+//
+//    //Width
+//    List<Width> getAllWidth();
+//    Width getWidthById(int id);
+//    void SaveWidth(Width width);
+//
+//    //Length
+//    //TO DO
+//
+//    //GypsumBoard
+//    List<GypsumBoard> getAllGypsumBoards();
+//
+//    List<GypsumBoard>getAllGypsumBoardsByDate(int monthIndex, int year);
 
 }
