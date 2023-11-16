@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -104,9 +105,10 @@ public class GypsumBoardService extends MyService {
     }
 
 
-    public List<GypsumBoardProductionData> getAllGypsumBoardsByDate(int day, int monthIndex, int year) {
-        LocalDateTime startDate = LocalDate.of(year, monthIndex, 1).atTime(8,0);//
-        LocalDateTime endDate = LocalDate.of(year, monthIndex, day).atTime(8,0);
+    public List<GypsumBoardProductionData> getAllGypsumBoardsByDate(String startDateValue, String endDateValue) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDate = LocalDate.parse(startDateValue, formatter).atTime(8,0);//
+        LocalDateTime endDate = LocalDate.parse(endDateValue, formatter).atTime(8,0);
         System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
         List<Integer> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
         System.out.println("Найдено " + ids.size() + "записей из productionLog\n");
