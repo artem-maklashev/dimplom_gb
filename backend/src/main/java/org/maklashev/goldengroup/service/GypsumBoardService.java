@@ -1,12 +1,7 @@
 package org.maklashev.goldengroup.service;
 
-import org.apache.el.stream.Stream;
 import org.maklashev.goldengroup.model.MyService;
-import org.maklashev.goldengroup.model.entity.TradeMark;
-import org.maklashev.goldengroup.model.entity.gypsumboard.BoardType;
-import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
-import org.maklashev.goldengroup.model.entity.gypsumboard.Thickness;
-import org.maklashev.goldengroup.model.entity.gypsumboard.Width;
+import org.maklashev.goldengroup.model.entity.gypsumboard.*;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.model.repositories.*;
@@ -15,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class GypsumBoardService extends MyService {
@@ -38,7 +33,11 @@ public class GypsumBoardService extends MyService {
     @Autowired
     private final ProductionListRepository productionListRepository;
 
-    public GypsumBoardService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository, BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository, ProductionListRepository productionListRepository) {
+    @Autowired
+    private final PlanRepository planRepository;
+
+
+    public GypsumBoardService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository, BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository, ProductionListRepository productionListRepository, PlanRepository planRepository) {
         super(repository, typesRepository, tradeMarkRepository);
         this.boardTypeRepository = boardTypeRepository;
         this.thicknessRepository = thicknessRepository;
@@ -46,9 +45,8 @@ public class GypsumBoardService extends MyService {
         this.gypsumBoardRepository = gypsumBoardRepository;
         this.boardProductionRepository = boardProductionRepository;
         this.productionListRepository = productionListRepository;
+        this.planRepository = planRepository;
     }
-
-
 
 
     public List<BoardType> getAllBoardTypes() {
@@ -104,20 +102,19 @@ public class GypsumBoardService extends MyService {
     }
 
 
-    public List<GypsumBoardProductionData> getAllGypsumBoardsByDate(int day, int monthIndex, int year) {
-        LocalDateTime startDate = LocalDate.of(year, monthIndex, 1).atTime(8,0);//
-        LocalDateTime endDate = LocalDate.of(year, monthIndex, day).atTime(8,0);
-        System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
-        List<Integer> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
-        System.out.println("Найдено " + ids.size() + "записей из productionLog\n");
-        if (ids.size() > 0 ) {
-        List<BoardProduction> boardProductions = boardProductionRepository.findAllByProductionListIdIn(ids);
-        System.out.println("Получен список из " + boardProductions.size() + " записей");
-        return getProductionData(boardProductions);
+    public List<GypsumBoardProductionData> getAllGypsumBoardsByDate(String startDateValue, String endDateValue) {
+
+
+        List<BoardProduction> boardProductions = getBoardProductionByDate(startDateValue, endDateValue);
+        List<Plan> planList = getPlanByDate(startDateValue, endDateValue);
+
+        if (!boardProductions.isEmpty() || !planList.isEmpty()) {
+            return getProductionData(boardProductions, planList);
         }
         return List.of(new GypsumBoardProductionData("Нет данных", 0, 0, 0, 0));
     }
-    private List<GypsumBoardProductionData> getProductionData(List<BoardProduction> boardProductions) {
+
+    private List<GypsumBoardProductionData> getProductionData(List<BoardProduction> boardProductions, List<Plan> planList) {
         Map<String, GypsumBoardProductionData> dataMap = new HashMap<>();
 
         for (BoardProduction bp : boardProductions) {
@@ -140,8 +137,52 @@ public class GypsumBoardService extends MyService {
             GypsumBoardProductionData gypsumBoardProductionData = dataMap.get(name);
             gypsumBoardProductionData.addValues(plan, total, fact, defective);
         }
+
+        for (Plan p : planList) {
+            float plan = p.getPlanValue();
+            String name = p.getGypsumBoard().toString();
+            dataMap.putIfAbsent(name, new GypsumBoardProductionData(name, 0, 0, 0, 0));
+            GypsumBoardProductionData gypsumBoardProductionData = dataMap.get(name);
+            gypsumBoardProductionData.addValues(plan, 0, 0, 0);
+        }
         System.out.println("Данные для фронтенда - " + dataMap.size() + " записей");
-        return new ArrayList<>(dataMap.values());
+        List<GypsumBoardProductionData> dataMapValues = new ArrayList<>(dataMap.values());
+        dataMapValues.sort(Comparator.comparing(GypsumBoardProductionData::getBoardTitle).thenComparing(GypsumBoardProductionData::getPlanValue));
+        return dataMapValues;
+    }
+
+    private List<BoardProduction> getBoardProductionByDate(String startDateValue, String endDateValue) {
+        LocalDateTime startDate = convertStringToDate(startDateValue);//
+        LocalDateTime endDate = convertStringToDate(endDateValue);
+        System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
+        List<Integer> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
+        System.out.println("Найдено " + ids.size() + "записей из productionLog\n");
+        if (!ids.isEmpty()) {
+            List<BoardProduction> boardProductions = boardProductionRepository.findAllByProductionListIdIn(ids);
+            System.out.println("Получен список из " + boardProductions.size() + " записей");
+            return boardProductions;
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Plan> getPlanByDate(String startDateValue, String endDateValue) {
+        LocalDateTime startDate = convertStringToDate(startDateValue);//
+        LocalDateTime endDate = convertStringToDate(endDateValue);
+        List<Integer> planIds = planRepository.findIdsInDateRange(startDate.toLocalDate(), endDate.toLocalDate());
+        if (!planIds.isEmpty()) {
+           return planRepository.findAllById(planIds);
+        }
+        return new ArrayList<>();
+    }
+
+    public Map<Edge, Float> getEgeQuantityByDate(String startDateValue, String endDateValue) {
+
+        return new HashMap<>();
+    }
+
+    private LocalDateTime convertStringToDate(String dateValue){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(dateValue, formatter).atTime(8, 0);
     }
 }
 
