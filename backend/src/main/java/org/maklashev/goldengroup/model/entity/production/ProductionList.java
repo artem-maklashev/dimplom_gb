@@ -15,7 +15,7 @@ public class ProductionList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "production_start")
     private LocalDateTime productionStart;
@@ -24,7 +24,7 @@ public class ProductionList {
     private LocalDateTime productionFinish;
 
     @Column(name = "production_date")
-    private LocalDate productionDate;
+    private LocalDateTime productionDate;
 
     @ManyToOne
     @JoinColumn(name = "shift_id")

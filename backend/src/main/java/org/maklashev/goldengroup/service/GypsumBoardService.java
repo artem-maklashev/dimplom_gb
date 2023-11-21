@@ -155,7 +155,7 @@ public class GypsumBoardService extends MyService {
         LocalDateTime startDate = convertStringToDate(startDateValue);//
         LocalDateTime endDate = convertStringToDate(endDateValue);
         System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
-        List<Integer> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
+        List<Long> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
         System.out.println("Найдено " + ids.size() + "записей из productionLog\n");
         if (!ids.isEmpty()) {
             List<BoardProduction> boardProductions = boardProductionRepository.findAllByProductionListIdIn(ids);

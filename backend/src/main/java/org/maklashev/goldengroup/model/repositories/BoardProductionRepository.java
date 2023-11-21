@@ -11,7 +11,7 @@ public interface BoardProductionRepository extends JpaRepository<BoardProduction
 
 //    List<BoardProduction> findAllByGypsumBoardIdIn(List<Integer> gypsumBoardIds);
 
-    List<BoardProduction> findAllByProductionListIdIn(List<Integer> ids);
+    List<BoardProduction> findAllByProductionListIdIn(List<Long> ids);
 
 
 }
