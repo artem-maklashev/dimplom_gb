@@ -151,7 +151,7 @@ public class GypsumBoardService extends MyService {
         return dataMapValues;
     }
 
-    private List<BoardProduction> getBoardProductionByDate(String startDateValue, String endDateValue) {
+    public List<BoardProduction> getBoardProductionByDate(String startDateValue, String endDateValue) {
         LocalDateTime startDate = convertStringToDate(startDateValue);//
         LocalDateTime endDate = convertStringToDate(endDateValue);
         System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
@@ -184,6 +184,9 @@ public class GypsumBoardService extends MyService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(dateValue, formatter).atTime(8, 0);
     }
+
+
+
 }
 
 

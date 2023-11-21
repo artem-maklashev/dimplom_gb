@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.maklashev.goldengroup.model.MyService;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
+import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.service.GypsumBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,14 @@ public class GypsumBoardController {
             @RequestParam(name = "endDate", defaultValue = "2023-01-01") String endDate){
 
         return gypsumBoardService.getAllGypsumBoardsByDate(startDate, endDate);
+    }
+
+    @GetMapping("/allboard/production")
+    public List<BoardProduction> getProductionData(
+            @RequestParam(name = "startDate", defaultValue = "2023-01-01") String startDate,
+            @RequestParam(name = "endDate", defaultValue = "2023-01-01") String endDate
+    ) {
+        return gypsumBoardService.getBoardProductionByDate(startDate, endDate);
     }
 //    @PostMapping("/api/allboard")
 //    public List<GypsumBoard> boardByDate(@RequestBody Date date) {

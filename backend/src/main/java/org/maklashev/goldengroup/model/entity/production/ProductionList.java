@@ -5,6 +5,7 @@ import lombok.Data;
 import org.maklashev.goldengroup.model.entity.Shift;
 import org.maklashev.goldengroup.model.entity.Types;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,6 +22,9 @@ public class ProductionList {
 
     @Column(name = "production_finish")
     private LocalDateTime productionFinish;
+
+    @Column(name = "production_date")
+    private LocalDate productionDate;
 
     @ManyToOne
     @JoinColumn(name = "shift_id")
