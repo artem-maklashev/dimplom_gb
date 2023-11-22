@@ -5,6 +5,7 @@ import org.maklashev.goldengroup.model.entity.gypsumboard.*;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.model.repositories.*;
+import org.maklashev.goldengroup.model.repositories.gypsumboard.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
