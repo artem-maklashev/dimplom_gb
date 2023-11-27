@@ -1,10 +1,14 @@
 package org.maklashev.goldengroup.service;
 
 import org.maklashev.goldengroup.model.MyService;
+import org.maklashev.goldengroup.model.entity.delays.Delays;
+import org.maklashev.goldengroup.model.entity.delays.UnitPart;
 import org.maklashev.goldengroup.model.entity.gypsumboard.*;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.model.repositories.*;
+import org.maklashev.goldengroup.model.repositories.delays.DelaysRepository;
+import org.maklashev.goldengroup.model.repositories.delays.UnitPartRepository;
 import org.maklashev.goldengroup.model.repositories.gypsumboard.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+import static java.lang.Integer.parseInt;
 
 @Service
 public class GypsumBoardService extends MyService {
@@ -38,7 +44,9 @@ public class GypsumBoardService extends MyService {
     private final PlanRepository planRepository;
 
 
-    public GypsumBoardService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository, BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository, ProductionListRepository productionListRepository, PlanRepository planRepository) {
+
+
+    public GypsumBoardService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository, BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository, ProductionListRepository productionListRepository, PlanRepository planRepository, DelaysRepository delaysRepository) {
         super(repository, typesRepository, tradeMarkRepository);
         this.boardTypeRepository = boardTypeRepository;
         this.thicknessRepository = thicknessRepository;
@@ -47,6 +55,7 @@ public class GypsumBoardService extends MyService {
         this.boardProductionRepository = boardProductionRepository;
         this.productionListRepository = productionListRepository;
         this.planRepository = planRepository;
+
     }
 
 
@@ -153,8 +162,8 @@ public class GypsumBoardService extends MyService {
     }
 
     public List<BoardProduction> getBoardProductionByDate(String startDateValue, String endDateValue) {
-        LocalDateTime startDate = convertStringToDate(startDateValue);//
-        LocalDateTime endDate = convertStringToDate(endDateValue);
+        LocalDateTime startDate = Utils.convertStringToDate(startDateValue);//
+        LocalDateTime endDate = Utils.convertStringToDate(endDateValue);
         System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
         List<Long> ids = productionListRepository.findIdsInDateRange(startDate, endDate);
         System.out.println("Найдено " + ids.size() + "записей из productionLog\n");
@@ -167,8 +176,8 @@ public class GypsumBoardService extends MyService {
     }
 
     public List<Plan> getPlanByDate(String startDateValue, String endDateValue) {
-        LocalDateTime startDate = convertStringToDate(startDateValue);//
-        LocalDateTime endDate = convertStringToDate(endDateValue);
+        LocalDateTime startDate = Utils.convertStringToDate(startDateValue);//
+        LocalDateTime endDate = Utils.convertStringToDate(endDateValue);
         List<Integer> planIds = planRepository.findIdsInDateRange(startDate.toLocalDate(), endDate.toLocalDate());
         if (!planIds.isEmpty()) {
            return planRepository.findAllById(planIds);
@@ -176,15 +185,9 @@ public class GypsumBoardService extends MyService {
         return new ArrayList<>();
     }
 
-    public Map<Edge, Float> getEgeQuantityByDate(String startDateValue, String endDateValue) {
 
-        return new HashMap<>();
-    }
 
-    private LocalDateTime convertStringToDate(String dateValue){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDate.parse(dateValue, formatter).atTime(8, 0);
-    }
+
 
 
 
