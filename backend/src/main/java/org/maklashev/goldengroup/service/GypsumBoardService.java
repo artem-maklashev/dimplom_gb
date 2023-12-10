@@ -1,24 +1,15 @@
 package org.maklashev.goldengroup.service;
 
 import org.maklashev.goldengroup.model.MyService;
-import org.maklashev.goldengroup.model.entity.delays.Delays;
-import org.maklashev.goldengroup.model.entity.delays.UnitPart;
 import org.maklashev.goldengroup.model.entity.gypsumboard.*;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.model.repositories.*;
-import org.maklashev.goldengroup.model.repositories.delays.DelaysRepository;
-import org.maklashev.goldengroup.model.repositories.delays.UnitPartRepository;
 import org.maklashev.goldengroup.model.repositories.gypsumboard.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static java.lang.Integer.parseInt;
 
 @Service
 public class GypsumBoardService extends MyService {
@@ -31,7 +22,11 @@ public class GypsumBoardService extends MyService {
     private final PlanRepository planRepository;
 
     @Autowired
-    public GypsumBoardService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository, BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository, ProductionListRepository productionListRepository, PlanRepository planRepository, DelaysRepository delaysRepository) {
+    public GypsumBoardService(ShiftRepository repository, TypesRepository typesRepository,
+                              TradeMarkRepository tradeMarkRepository, BoardTypeRepository boardTypeRepository,
+                              ThicknessRepository thicknessRepository, WidthRepository widthRepository,
+                              GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository,
+                              ProductionListRepository productionListRepository, PlanRepository planRepository) {
         super(repository, typesRepository, tradeMarkRepository);
         this.boardTypeRepository = boardTypeRepository;
         this.thicknessRepository = thicknessRepository;
