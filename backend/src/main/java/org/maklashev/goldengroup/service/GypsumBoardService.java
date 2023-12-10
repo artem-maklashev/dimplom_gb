@@ -22,30 +22,15 @@ import static java.lang.Integer.parseInt;
 
 @Service
 public class GypsumBoardService extends MyService {
-    @Autowired
     private final BoardTypeRepository boardTypeRepository;
-
-    @Autowired
     private final ThicknessRepository thicknessRepository;
-
-    @Autowired
     private final WidthRepository widthRepository;
-
-    @Autowired
     private final GypsumBoardRepository gypsumBoardRepository;
-
-    @Autowired
     private final BoardProductionRepository boardProductionRepository;
-
-    @Autowired
     private final ProductionListRepository productionListRepository;
-
-    @Autowired
     private final PlanRepository planRepository;
 
-
-
-
+    @Autowired
     public GypsumBoardService(ShiftRepository repository, TypesRepository typesRepository, TradeMarkRepository tradeMarkRepository, BoardTypeRepository boardTypeRepository, ThicknessRepository thicknessRepository, WidthRepository widthRepository, GypsumBoardRepository gypsumBoardRepository, BoardProductionRepository boardProductionRepository, ProductionListRepository productionListRepository, PlanRepository planRepository, DelaysRepository delaysRepository) {
         super(repository, typesRepository, tradeMarkRepository);
         this.boardTypeRepository = boardTypeRepository;
