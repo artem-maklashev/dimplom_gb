@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.maklashev.goldengroup.model.entity.defects.Defects;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
+import org.maklashev.goldengroup.model.entity.production.ProductionList;
+import org.maklashev.goldengroup.model.repositories.ProductionListRepository;
 
 @Data
 @Entity
@@ -15,8 +17,8 @@ public class BoardDefectsLog {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "board_production_id")
-    private BoardProduction boardProduction;
+    @JoinColumn(name = "production_log_id")
+    private ProductionList productionList;
 
     @Column(name = "value")
     private double value;

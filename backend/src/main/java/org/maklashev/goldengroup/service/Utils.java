@@ -9,4 +9,9 @@ public class Utils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(dateValue, formatter).atTime(8, 0);
     }
+
+    public static LocalDateTime convertStringToStartOfTheDay(String dateValue) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(dateValue, formatter).atTime(0, 0);
+    }
 }
