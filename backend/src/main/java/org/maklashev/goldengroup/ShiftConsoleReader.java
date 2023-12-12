@@ -1,10 +1,8 @@
 package org.maklashev.goldengroup;
 
-import org.maklashev.goldengroup.model.MyService;
 import org.maklashev.goldengroup.model.entity.Shift;
-import org.maklashev.goldengroup.model.entity.Types;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
-import org.maklashev.goldengroup.service.GypsumBoardService;
+import org.maklashev.goldengroup.model.service.GypsumBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.swing.*;

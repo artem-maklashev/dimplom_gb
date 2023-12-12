@@ -1,4 +1,4 @@
-package org.maklashev.goldengroup.service;
+package org.maklashev.goldengroup.model.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,11 +1,11 @@
-package org.maklashev.goldengroup.service;
+package org.maklashev.goldengroup.model.service;
 
 import org.maklashev.goldengroup.model.entity.delays.Delays;
 import org.maklashev.goldengroup.model.repositories.delays.DelaysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,7 +19,9 @@ public class DelaysService {
     }
 
     public List<Delays> getDelaysByDate(String startDate, String endDate) {
-        LocalDateTime start = Utils.convertStringToDate(startDate);
-        LocalDateTime end = Utils.convertStringToDate(endDate);
-        return delaysRepository.findAllByDelayDateBetween(start.toLocalDate(), end.toLocalDate());}
+        LocalDate start = Utils.convertStringToDate(startDate).toLocalDate();
+        LocalDate end = Utils.convertStringToDate(endDate).toLocalDate();
+        System.out.println(delaysRepository.findAllByDelayDateBetween(start, end).size());
+        System.out.println(delaysRepository.findIdsInDateRange(start, end).size());
+        return delaysRepository.findAllByDelayDateBetween(start,end);}
 }

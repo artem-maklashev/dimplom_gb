@@ -1,4 +1,4 @@
-package org.maklashev.goldengroup.service;
+package org.maklashev.goldengroup.model.service;
 
 import org.maklashev.goldengroup.model.MyService;
 import org.maklashev.goldengroup.model.entity.gypsumboard.*;

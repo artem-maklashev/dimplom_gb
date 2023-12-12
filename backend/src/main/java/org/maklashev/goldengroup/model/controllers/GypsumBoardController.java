@@ -6,9 +6,9 @@ import org.maklashev.goldengroup.model.entity.delays.Delays;
 import org.maklashev.goldengroup.model.entity.gypsumboard.BoardDefectsLog;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
-import org.maklashev.goldengroup.service.DefectsService;
-import org.maklashev.goldengroup.service.DelaysService;
-import org.maklashev.goldengroup.service.GypsumBoardService;
+import org.maklashev.goldengroup.model.service.DefectsService;
+import org.maklashev.goldengroup.model.service.DelaysService;
+import org.maklashev.goldengroup.model.service.GypsumBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +55,10 @@ public class GypsumBoardController {
             @RequestParam(name = "endDate", defaultValue = "2023-01-01") String endDate,
             @RequestParam(name = "division", defaultValue = "1") String division
     ) {
+        System.out.println("!!!!!");
+        System.out.println(startDate);
+        System.out.println(endDate);
+
         return delaysService.getDelaysByDate(startDate, endDate);
     }
 
