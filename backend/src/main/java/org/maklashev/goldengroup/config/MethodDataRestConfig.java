@@ -1,11 +1,13 @@
 package org.maklashev.goldengroup.config;
 
 import org.maklashev.goldengroup.model.entity.Product;
+import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-
+@Configuration
 public class MethodDataRestConfig implements RepositoryRestConfigurer {
 
     private String clientUrl = Environment.getInstance().getHost();
@@ -19,6 +21,7 @@ public class MethodDataRestConfig implements RepositoryRestConfigurer {
         };
 
         config.exposeIdsFor(Product.class);
+        config.exposeIdsFor(GypsumBoardProductionData.class);
 
         disableHttpMethods(Product.class, config, unsupportedActions);
 

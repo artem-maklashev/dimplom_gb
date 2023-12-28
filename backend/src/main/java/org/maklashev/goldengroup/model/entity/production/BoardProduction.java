@@ -1,9 +1,13 @@
 package org.maklashev.goldengroup.model.entity.production;
 
-import jakarta.persistence.*;
+
 import lombok.Data;
+
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoardCategory;
+
+import jakarta.persistence.*;
+
 
 @Data
 @Entity

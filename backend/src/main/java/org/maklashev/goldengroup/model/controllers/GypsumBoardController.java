@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class GypsumBoardController {
     private final GypsumBoardService gypsumBoardService;
     private final DelaysService delaysService;
