@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  client:
+    image: ${DOCKER_REGISTRY-}client
+    container_name: client.app
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+  backend-db:
+    image: mysql
+    container_name: backend.db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=studentsDB
+    volumes:
+      - /home/artem-maklashev/programming/mysql_bd:/var/lib/mysql
+    ports:
+      - "33006:3306"
+  backend:
+    image: ${DOCKER_REGISTRY-}backend
+    container_name: backend.app
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
