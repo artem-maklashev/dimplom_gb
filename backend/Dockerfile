@@ -1,6 +1,6 @@
 FROM openjdk:20
 
-ENV SPRING_DATASOURCE_URL="jdbc:mysql://host.docker.internal:33006/goldengroup"
+ENV SPRING_DATASOURCE_URL="jdbc:mysql://192.168.0.9:33006/goldengroup"
 ENV SPRING_DATASOURCE_USERNAME=root
 ENV SPRING_DATASOURCE_PASSWORD=402986
 
@@ -8,5 +8,7 @@ ENV SPRING_DATASOURCE_PASSWORD=402986
 COPY target/goldengroup-0.0.1-SNAPSHOT.jar /tmp/goldengroup-0.0.1-SNAPSHOT.jar
 
 WORKDIR /tmp
+
+EXPOSE 8080
 
 CMD ["java", "-jar", "/tmp/goldengroup-0.0.1-SNAPSHOT.jar"]
