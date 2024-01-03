@@ -21,13 +21,13 @@ services:
 #      - "3000:3000"
 
   backend-db:
-    image: mysql
+    image: mysql:latest
     container_name: backend.db
     environment:
       - MYSQL_ROOT_PASSWORD=402986
       - MYSQL_DATABASE=goldengroup
     volumes:
-      - /home/artem-maklashev/programming/mysql_bd:/var/lib/mysql
+      - ./mysql_bd:/var/lib/mysql
     ports:
       - "33006:3306"
     networks:
