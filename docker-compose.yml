@@ -32,6 +32,7 @@ services:
       - "33006:3306"
     networks:
       - app-network
+    command: --lower-case-table-names=2
 
   backend:
     image: ${DOCKER_REGISTRY-}backend
