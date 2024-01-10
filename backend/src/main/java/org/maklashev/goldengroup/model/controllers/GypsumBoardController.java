@@ -71,6 +71,7 @@ public class GypsumBoardController {
 
     @GetMapping("/planData")
     public List<Plan> getPlan() {
+        System.out.println("Запрос плана");
         return planService.getPlanData();
     }
 }

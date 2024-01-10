@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -19,8 +20,12 @@ public class PlanService {
 
     public List<Plan> getPlanData() {
        LocalDate date = LocalDate.now();
-        short month = (short) date.getMonth().getValue();
-        int year = date.getYear();
-        return this.planRepository.findAllByPlanDateMonthAndPlanDateYear(month, year);
+       LocalDate startDate = LocalDate.of(date.getYear()-1, date.getMonth(),1);
+//       LocalDate startDate = LocalDate.of(2023, 12,1);
+        YearMonth yearMonth = YearMonth.from(date);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+//        LocalDate endDate = LocalDate.of(2023, 12, 31);
+        System.out.println(this.planRepository.findPlansByPlanDateBetween(startDate, endDate).isEmpty());
+        return this.planRepository.findPlansByPlanDateBetween(startDate, endDate);
     }
 }
