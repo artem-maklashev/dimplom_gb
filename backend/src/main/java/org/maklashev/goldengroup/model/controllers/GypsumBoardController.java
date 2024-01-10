@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.maklashev.goldengroup.model.entity.delays.Delays;
 import org.maklashev.goldengroup.model.entity.gypsumboard.BoardDefectsLog;
+import org.maklashev.goldengroup.model.entity.gypsumboard.Plan;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.model.service.DefectsService;
 import org.maklashev.goldengroup.model.service.DelaysService;
 import org.maklashev.goldengroup.model.service.GypsumBoardService;
+import org.maklashev.goldengroup.model.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,18 +21,19 @@ public class GypsumBoardController {
     private final GypsumBoardService gypsumBoardService;
     private final DelaysService delaysService;
     private final DefectsService defectsService;
+    private final PlanService planService;
     @Autowired
-    public GypsumBoardController(GypsumBoardService gypsumBoardService, DelaysService delaysService, DefectsService defectsService) {
+    public GypsumBoardController(GypsumBoardService gypsumBoardService, DelaysService delaysService,
+                                 DefectsService defectsService,  PlanService planService) {
         this.gypsumBoardService = gypsumBoardService;
         this.delaysService = delaysService;
         this.defectsService = defectsService;
+        this.planService = planService;
+
     }
 
     @GetMapping("/allboard")
     public List<GypsumBoardProductionData> allBoard(
-//            @RequestParam(name = "day", defaultValue = "1") int day,
-//            @RequestParam(name = "month", defaultValue = "1") int month,
-//            @RequestParam(name = "year", defaultValue = "2023") int year
             @RequestParam(name = "startDate", defaultValue = "2023-01-01") String startDate,
             @RequestParam(name = "endDate", defaultValue = "2023-01-01") String endDate){
 
@@ -44,11 +47,7 @@ public class GypsumBoardController {
     ) {
         return gypsumBoardService.getBoardProductionByDate(startDate, endDate);
     }
-//    @PostMapping("/api/allboard")
-//    public List<GypsumBoard> boardByDate(@RequestBody Date date) {
-//        List<GypsumBoard> allBoard = myService.getAllGypsumBoardsByDate(date);
-//        return allBoard;
-//    }
+
     @GetMapping("/allboard/delays")
     public List<Delays> getDelays(
             @RequestParam(name = "startDate", defaultValue = "2023-01-01") String startDate,
@@ -68,5 +67,10 @@ public class GypsumBoardController {
             @RequestParam(name = "endDate", defaultValue = "2023-01-01") String endDate
     ) {
         return defectsService.getDefectsByDate(startDate, endDate);
+    }
+
+    @GetMapping("/planData")
+    public List<Plan> getPlan() {
+        return planService.getPlanData();
     }
 }
