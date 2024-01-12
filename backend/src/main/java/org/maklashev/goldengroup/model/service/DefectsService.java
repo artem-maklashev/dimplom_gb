@@ -1,6 +1,7 @@
 package org.maklashev.goldengroup.model.service;
 
 import org.maklashev.goldengroup.model.entity.gypsumboard.BoardDefectsLog;
+import org.maklashev.goldengroup.model.entity.production.ProductionList;
 import org.maklashev.goldengroup.model.repositories.ProductionListRepository;
 import org.maklashev.goldengroup.model.repositories.defects.DefectsLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ public class DefectsService {
     public List<BoardDefectsLog> getDefectsByDate(String startDateString, String endDateString) {
         LocalDateTime startDate = Utils.convertStringToStartOfTheDay(startDateString);
         LocalDateTime endDate = Utils.convertStringToStartOfTheDay(endDateString);
-        List<Long> productionLogIds = productionListRepository.findIdsInDateRange(startDate, endDate);
-        return defectsLogRepository.findBoardDefectsLogsByProductionListIdIn(productionLogIds);
+//        List<Long> productionLogIds = productionListRepository.findIdsInDateRange(startDate, endDate);
+        List<ProductionList> productionLogIds = productionListRepository.findProductionListByProductionDateBetween(startDate, endDate);
+//        return defectsLogRepository.findBoardDefectsLogsByProductionListIdIn(productionLogIds);
+        return defectsLogRepository.findBoardDefectsLogsByProductionListIn(productionLogIds);
     }
 }
