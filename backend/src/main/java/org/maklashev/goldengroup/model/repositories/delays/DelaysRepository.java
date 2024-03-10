@@ -14,9 +14,6 @@ public interface DelaysRepository extends JpaRepository<Delays, Integer> {
     List<Delays> findAllByUnitPartIdIn(List<Integer> unitParts);
     List<Delays> findAllByDelayDateBetween(LocalDate startDate, LocalDate endDate);
 
-
-    List<Delays> findAllByDelayDateStartsWithAndDelayDateEndingWith(LocalDate start, LocalDate end);
-
     @Query("SELECT id FROM Delays WHERE delayDate >= :startDate AND delayDate <= :endDate")
     List<Integer> findIdsInDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }
