@@ -18,6 +18,18 @@ spring:
             allowed-methods: "*"
             allowed-headers: "*"
 #            allow-credentials: true
+      routes:
+        - id: backend-service
+          uri: lb://backend-service
+          predicates:
+            - Path=/api/**
+          filters:
+            - AuthenticationFilter
+
+        - id: authorization-service
+          uri: lb://authorization-service
+          predicates:
+            - Path=/auth/**
 #    gateway:
 #      globalcors:
 #        cors-configurations:
@@ -33,4 +45,11 @@ spring:
 #              - PUT
 #              - OPTIONS
 #      default-filters:
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
 #        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin, RETAIN_UNIQUE

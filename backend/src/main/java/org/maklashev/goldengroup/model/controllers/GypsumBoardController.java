@@ -12,11 +12,13 @@ import org.maklashev.goldengroup.model.service.DelaysService;
 import org.maklashev.goldengroup.model.service.GypsumBoardService;
 import org.maklashev.goldengroup.model.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
+//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+
 public class GypsumBoardController {
     private final GypsumBoardService gypsumBoardService;
     private final DelaysService delaysService;
