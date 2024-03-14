@@ -49,7 +49,7 @@ public class JwtService {
                 .subject(userDetails.getUsername())
                 .claim("roles", roles)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000*60*24))
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*60*24))
                 .signWith(getSignKey(), Jwts.SIG.HS256)
                 .compact();
     }
