@@ -1,6 +1,7 @@
 package ru.artemmaklashev.authorization.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -24,7 +25,7 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -48,8 +49,9 @@ public class JwtService {
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .claim("roles", roles)
+                .claim("approved", userDetails.isEnabled())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000*60*60*24))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignKey(), Jwts.SIG.HS256)
                 .compact();
     }
@@ -89,6 +91,18 @@ public class JwtService {
     }
 
     public void validateToken(String token) {
-        Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token);
+//        try {
+            Jws<Claims> jwsClaims = Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token);
+            Claims claims = jwsClaims.getPayload();
+            if (claims.containsKey("approved")) {
+                boolean approved = claims.get("approved", Boolean.class);
+                System.out.println("Approved: " + approved);
+            }
+//        } catch (
+//                Exception e) {
+//            System.out.println("Token validation failed: " + e.getMessage());
+//        }
     }
+
+
 }
