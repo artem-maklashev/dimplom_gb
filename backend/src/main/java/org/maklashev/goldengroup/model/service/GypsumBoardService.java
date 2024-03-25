@@ -143,6 +143,7 @@ public class GypsumBoardService extends MyService {
 
     public List<BoardProduction> getBoardProductionByDate(String startDateValue, String endDateValue) {
         LocalDateTime startDate = Utils.convertStringToDate(startDateValue);//
+        System.out.println("Дата начала: " + startDate);
         LocalDateTime endDate = Utils.convertStringToDate(endDateValue);
         System.out.printf("Дата начала: %s, дата конца: %s\n", startDate, endDate);
         List<Long> ids = productionListRepository.findIdsInDateRange(startDate, endDate);

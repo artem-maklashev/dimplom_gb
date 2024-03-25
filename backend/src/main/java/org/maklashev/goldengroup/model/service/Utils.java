@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Utils {
     public static LocalDateTime convertStringToDate(String dateValue){
+        System.out.println("Получена дата: " + dateValue);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(dateValue, formatter).atTime(8, 0);
     }
