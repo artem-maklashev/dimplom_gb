@@ -3,9 +3,7 @@ package org.maklashev.goldengroup.model.entity.gypsumboard;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.maklashev.goldengroup.model.entity.defects.Defects;
-import org.maklashev.goldengroup.model.entity.production.BoardProduction;
 import org.maklashev.goldengroup.model.entity.production.ProductionList;
-import org.maklashev.goldengroup.model.repositories.ProductionListRepository;
 
 @Data
 @Entity

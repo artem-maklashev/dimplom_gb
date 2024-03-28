@@ -30,21 +30,7 @@ spring:
           uri: lb://authorization-service
           predicates:
             - Path=/auth/**
-#    gateway:
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            allowed-origins:
-#              - "*"
-#            allowed-headers:
-#              - "*"
-#            allowedMethods:
-#              - GET
-#              - POST
-#              - DELETE
-#              - PUT
-#              - OPTIONS
-#      default-filters:
+
 logging:
   level:
     org:

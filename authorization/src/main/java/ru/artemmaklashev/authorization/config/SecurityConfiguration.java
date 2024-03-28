@@ -75,9 +75,9 @@ public class SecurityConfiguration {
 //                        .permitAll()
                         .anyRequest()
 //                        .authenticated())
-                                .permitAll());
+                                .permitAll())
 //                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 //                .logout(logout -> logout
 //                        .logoutUrl("/api/v1/auth/logout")
 //                        .addLogoutHandler(logoutHandler)

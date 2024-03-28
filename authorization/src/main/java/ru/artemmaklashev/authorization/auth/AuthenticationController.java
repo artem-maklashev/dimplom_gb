@@ -32,4 +32,5 @@ public class AuthenticationController {
         service.validateToken(token);
         return "token is valid";
     }
+
 }

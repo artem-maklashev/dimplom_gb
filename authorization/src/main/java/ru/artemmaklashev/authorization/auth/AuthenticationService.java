@@ -5,7 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.artemmaklashev.authorization.config.JwtService;
+import ru.artemmaklashev.authorization.service.JwtService;
 import ru.artemmaklashev.authorization.user.Role;
 import ru.artemmaklashev.authorization.user.User;
 import ru.artemmaklashev.authorization.user.UserRepository;
