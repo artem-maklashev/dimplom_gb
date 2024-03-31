@@ -1,11 +1,15 @@
 package org.maklashev.goldengroup.model.entity.gypsumboard;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.maklashev.goldengroup.model.entity.defects.Defects;
 import org.maklashev.goldengroup.model.entity.production.ProductionList;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "board_defects_log")
 public class BoardDefectsLog {

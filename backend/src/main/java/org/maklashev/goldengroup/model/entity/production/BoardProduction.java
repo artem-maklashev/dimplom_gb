@@ -1,8 +1,10 @@
 package org.maklashev.goldengroup.model.entity.production;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import lombok.NoArgsConstructor;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoard;
 import org.maklashev.goldengroup.model.entity.gypsumboard.GypsumBoardCategory;
 
@@ -10,6 +12,8 @@ import jakarta.persistence.*;
 
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "board_production")
 public class BoardProduction {
@@ -32,6 +36,5 @@ public class BoardProduction {
 
     @Column(name = "value")
     private float value;
-
 
 }

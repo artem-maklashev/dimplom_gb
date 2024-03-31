@@ -1,12 +1,16 @@
 package org.maklashev.goldengroup.model.entity.gypsumboard;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.maklashev.goldengroup.model.entity.Product;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "gypsum_board")
 //@DiscriminatorValue("GypsumBoard")

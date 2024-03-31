@@ -21,10 +21,8 @@ public class PlanService {
     public List<Plan> getPlanData() {
        LocalDate date = LocalDate.now();
        LocalDate startDate = LocalDate.of(date.getYear(), date.getMonth(),1);
-//       LocalDate startDate = LocalDate.of(2023, 12,1);
         YearMonth yearMonth = YearMonth.from(date);
         LocalDate endDate = yearMonth.atEndOfMonth();
-//        LocalDate endDate = LocalDate.of(2023, 12, 31);
         System.out.println(this.planRepository.findPlansByPlanDateBetween(startDate, endDate).isEmpty());
         return this.planRepository.findPlansByPlanDateBetween(startDate, endDate);
     }
