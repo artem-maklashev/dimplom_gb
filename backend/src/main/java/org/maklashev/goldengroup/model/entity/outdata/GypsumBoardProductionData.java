@@ -1,4 +1,4 @@
-package org.maklashev.goldengroup.model.outdata;
+package org.maklashev.goldengroup.model.entity.outdata;
 
 public class GypsumBoardProductionData {
     private String boardTitle;

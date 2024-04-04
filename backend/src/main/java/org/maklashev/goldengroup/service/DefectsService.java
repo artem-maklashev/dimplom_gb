@@ -24,9 +24,7 @@ public class DefectsService {
     public List<BoardDefectsLog> getDefectsByDate(String startDateString, String endDateString) {
         LocalDateTime startDate = Utils.convertStringToStartOfTheDay(startDateString);
         LocalDateTime endDate = Utils.convertStringToStartOfTheDay(endDateString);
-//        List<Long> productionLogIds = productionListRepository.findIdsInDateRange(startDate, endDate);
         List<ProductionList> productionLogIds = productionListRepository.findProductionListByProductionDateBetween(startDate, endDate);
-//        return defectsLogRepository.findBoardDefectsLogsByProductionListIdIn(productionLogIds);
         return defectsLogRepository.findBoardDefectsLogsByProductionListIn(productionLogIds);
     }
 }

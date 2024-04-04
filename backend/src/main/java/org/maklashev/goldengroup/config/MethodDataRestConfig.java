@@ -1,7 +1,7 @@
 package org.maklashev.goldengroup.config;
 
 import org.maklashev.goldengroup.model.entity.Product;
-import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
+import org.maklashev.goldengroup.model.entity.outdata.GypsumBoardProductionData;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;

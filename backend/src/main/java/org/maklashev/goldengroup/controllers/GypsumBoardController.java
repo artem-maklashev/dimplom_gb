@@ -12,7 +12,7 @@ import org.maklashev.goldengroup.model.entity.delays.Delays;
 import org.maklashev.goldengroup.model.entity.gypsumboard.BoardDefectsLog;
 import org.maklashev.goldengroup.model.entity.gypsumboard.Plan;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
-import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
+import org.maklashev.goldengroup.model.entity.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.service.DefectsService;
 import org.maklashev.goldengroup.service.DelaysService;
 import org.maklashev.goldengroup.service.GypsumBoardService;

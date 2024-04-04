@@ -2,7 +2,7 @@ package org.maklashev.goldengroup.service;
 
 import org.maklashev.goldengroup.model.entity.gypsumboard.*;
 import org.maklashev.goldengroup.model.entity.production.BoardProduction;
-import org.maklashev.goldengroup.model.outdata.GypsumBoardProductionData;
+import org.maklashev.goldengroup.model.entity.outdata.GypsumBoardProductionData;
 import org.maklashev.goldengroup.repositories.ProductionListRepository;
 import org.maklashev.goldengroup.repositories.ShiftRepository;
 import org.maklashev.goldengroup.repositories.TradeMarkRepository;
@@ -106,7 +106,7 @@ public class GypsumBoardService extends MyService {
         return List.of(new GypsumBoardProductionData("Нет данных", 0, 0, 0, 0));
     }
 
-    private List<GypsumBoardProductionData> getProductionData(List<BoardProduction> boardProductions, List<Plan> planList) {
+    public List<GypsumBoardProductionData> getProductionData(List<BoardProduction> boardProductions, List<Plan> planList) {
         Map<String, GypsumBoardProductionData> dataMap = new HashMap<>();
 
         for (BoardProduction bp : boardProductions) {
