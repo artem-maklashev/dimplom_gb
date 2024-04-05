@@ -108,34 +108,36 @@ public class GypsumBoardService extends MyService {
 
     public List<GypsumBoardProductionData> getProductionData(List<BoardProduction> boardProductions, List<Plan> planList) {
         Map<String, GypsumBoardProductionData> dataMap = new HashMap<>();
+        if (!boardProductions.isEmpty() ||!planList.isEmpty()) {
+            for (BoardProduction bp : boardProductions) {
+                float plan = 0, total = 0, fact = 0, defective = 0;
+                String name = bp.getGypsumBoard().toString();
 
-        for (BoardProduction bp : boardProductions) {
-            float plan = 0, total = 0, fact = 0, defective = 0;
-            String name = bp.getGypsumBoard().toString();
+                dataMap.putIfAbsent(name, new GypsumBoardProductionData(name, 0, 0, 0, 0));
 
-            dataMap.putIfAbsent(name, new GypsumBoardProductionData(name, 0, 0, 0, 0));
+                if (bp.getGypsumBoardCategory().getId() == 2
+                        || bp.getGypsumBoardCategory().getId() == 3
+                        || bp.getGypsumBoardCategory().getId() == 4) {
+                    fact = bp.getValue();
+                } else if (bp.getGypsumBoardCategory().getId() == 6) {
+                    defective = bp.getValue();
+                }
+                if (bp.getGypsumBoardCategory().getId() == 1) {
+                    total = bp.getValue();
+                }
 
-            if (bp.getGypsumBoardCategory().getId() == 2
-                    || bp.getGypsumBoardCategory().getId() == 3
-                    || bp.getGypsumBoardCategory().getId() == 4) {
-                fact = bp.getValue();
-            } else if (bp.getGypsumBoardCategory().getId() == 6) {
-                defective = bp.getValue();
+                GypsumBoardProductionData gypsumBoardProductionData = dataMap.get(name);
+                gypsumBoardProductionData.addValues(plan, total, fact, defective);
             }
-            if (bp.getGypsumBoardCategory().getId() == 1) {
-                total = bp.getValue();
-            }
-
-            GypsumBoardProductionData gypsumBoardProductionData = dataMap.get(name);
-            gypsumBoardProductionData.addValues(plan, total, fact, defective);
         }
-
-        for (Plan p : planList) {
-            float plan = p.getPlanValue();
-            String name = p.getGypsumBoard().toString();
-            dataMap.putIfAbsent(name, new GypsumBoardProductionData(name, 0, 0, 0, 0));
-            GypsumBoardProductionData gypsumBoardProductionData = dataMap.get(name);
-            gypsumBoardProductionData.addValues(plan, 0, 0, 0);
+        if(!planList.isEmpty()) {
+            for (Plan p : planList) {
+                float plan = p.getPlanValue();
+                String name = p.getGypsumBoard().toString();
+                dataMap.putIfAbsent(name, new GypsumBoardProductionData(name, 0, 0, 0, 0));
+                GypsumBoardProductionData gypsumBoardProductionData = dataMap.get(name);
+                gypsumBoardProductionData.addValues(plan, 0, 0, 0);
+            }
         }
         System.out.println("Данные для фронтенда - " + dataMap.size() + " записей");
         List<GypsumBoardProductionData> dataMapValues = new ArrayList<>(dataMap.values());

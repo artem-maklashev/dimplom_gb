@@ -153,6 +153,7 @@ public class GypsumBoardServiceIntegrationTest {
     }
 
     @Test
+    @DisplayName("Тест получения данных по производству")
     void testGetProductionData() {
         GypsumBoard board = new GypsumBoard();
             board.setId(1);
@@ -195,8 +196,10 @@ public class GypsumBoardServiceIntegrationTest {
         );
 
         Float expectedPlanValue = planList.stream().map(Plan::getPlanValue).reduce(0f, Float::sum);
-        Float expectedProductionValue = boardProductions.stream().filter(bp-> bp.getProductionList().getId() == 1).map(BoardProduction::getValue).reduce(0f, Float::sum);
-        //To-Do
+        Float expectedTotal = boardProductions.stream().filter(bp-> bp.getGypsumBoardCategory().getId() == 1).map(BoardProduction::getValue).reduce(0f, Float::sum);
+        Float expectedFact = boardProductions.stream().filter(bp-> bp.getGypsumBoardCategory().getId() > 1 && bp.getGypsumBoardCategory().getId() < 5).map(BoardProduction::getValue).reduce(0f, Float::sum);
+        Float expectedDefects = boardProductions.stream().filter(bp-> bp.getGypsumBoardCategory().getId() == 6).map(BoardProduction::getValue).reduce(0f, Float::sum);
+
         // Устанавливаем поведение для методов репозиториев
         when(boardProductionRepository.findAll()).thenReturn(boardProductions);
         when(planRepository.findAll()).thenReturn(planList);
@@ -207,8 +210,121 @@ public class GypsumBoardServiceIntegrationTest {
         // Проверяем, что результат соответствует ожидаемому
         // Напишите проверки в соответствии с вашими ожиданиями
          assertEquals(expectedPlanValue, result.get(0).getPlanValue());
-         assertEquals(expectedProductionValue, result.get(0).getFactValue());
-         assertEquals(35000f, result.get(0).getTotal());
+         assertEquals(expectedFact, result.get(0).getFactValue());
+         assertEquals(expectedTotal, result.get(0).getTotal());
+         assertEquals(expectedDefects, result.get(0).getDefectiveValue());
 
     }
+
+    @Test
+    @DisplayName("Получение данных по гипсокартону по датам")
+    void TestGetAllGypsumBoardsByDate() {
+        String startDate = "2024-01-01";
+        String endDate = "2024-01-02";
+
+        GypsumBoard board = new GypsumBoard();
+        board.setId(1);
+        board.setPType(new Types(1, "test"));
+        board.setTradeMark(new TradeMark(1, "test"));
+        board.setBoardType(new BoardType(1,"test",""));
+        board.setEdge(new Edge(1, "test"));
+        board.setThickness(new Thickness(1, "test"));
+        board.setWidth(new Width(1, "test"));
+        board.setLength(new Length(1, "test"));
+        // Создаем заглушки (mocks) для всех репозиториев
+        ProductionListRepository productionListRepository = mock(ProductionListRepository.class);
+        BoardTypeRepository boardTypeRepository = mock(BoardTypeRepository.class);
+        ThicknessRepository thicknessRepository = mock(ThicknessRepository.class);
+        WidthRepository widthRepository = mock(WidthRepository.class);
+        GypsumBoardRepository gypsumBoardRepository = mock(GypsumBoardRepository.class);
+        BoardProductionRepository boardProductionRepository = mock(BoardProductionRepository.class);
+        PlanRepository planRepository = mock(PlanRepository.class);
+        ShiftRepository repository = mock(ShiftRepository.class);
+        TypesRepository typesRepository = mock(TypesRepository.class);
+        TradeMarkRepository tradeMarkRepository = mock(TradeMarkRepository.class);
+
+        // Создаем экземпляр сервиса, передавая в него заглушки репозиториев
+        GypsumBoardService gypsumBoardService = new GypsumBoardService(
+                repository, typesRepository, tradeMarkRepository, boardTypeRepository,
+                thicknessRepository, widthRepository, gypsumBoardRepository,
+                boardProductionRepository, productionListRepository, planRepository);
+
+        // Подготавливаем тестовые данные
+        List<BoardProduction> boardProductions = Arrays.asList(
+                new BoardProduction(1, new ProductionList(), board, new GypsumBoardCategory(2, "2"), 10000),
+                new BoardProduction(2, new ProductionList(), board, new GypsumBoardCategory(3, "3"), 2000),
+                new BoardProduction(3, new ProductionList(), board, new GypsumBoardCategory(4, "4"), 3000),
+                new BoardProduction(4, new ProductionList(), board, new GypsumBoardCategory(6, "6"), 1000),
+                new BoardProduction(5, new ProductionList(), board, new GypsumBoardCategory(1, "1"), 35000)
+        );
+
+        List<Plan> planList = Arrays.asList(
+                new Plan(1, LocalDate.parse("2024-01-01 8:00"), board, 10000),
+                new Plan(2, LocalDate.parse("2024-01-02 8:00"), board, 20000)
+        );
+
+        when(gypsumBoardService.getBoardProductionByDate(startDate, endDate)).thenReturn(boardProductions);
+        when(gypsumBoardService.getPlanByDate(startDate, endDate)).thenReturn(planList);
+
+        // Вызываем метод, который мы тестируем
+        List<GypsumBoardProductionData> result = gypsumBoardService.getAllGypsumBoardsByDate(startDate, endDate);
+        // Проверяем, что результат соответств
+//        assertEquals(30000, result.get(0).getPlanValue());
+        assertEquals(15000, result.get(0).getFactValue());
+        assertEquals(35000, result.get(0).getTotal());
+        assertEquals(1000, result.get(0).getDefectiveValue());
+
+    }
+
+    @Test
+    @DisplayName("Получение данных по гипсокартону по датам в случае отсутствия данных")
+    void TestGetAllGypsumBoardsByDateNoData() {
+        String startDate = "2024-01-01";
+        String endDate = "2024-01-02";
+
+        GypsumBoard board = new GypsumBoard();
+        board.setId(1);
+        board.setPType(new Types(1, "test"));
+        board.setTradeMark(new TradeMark(1, "test"));
+        board.setBoardType(new BoardType(1,"test",""));
+        board.setEdge(new Edge(1, "test"));
+        board.setThickness(new Thickness(1, "test"));
+        board.setWidth(new Width(1, "test"));
+        board.setLength(new Length(1, "test"));
+        // Создаем заглушки (mocks) для всех репозиториев
+        ProductionListRepository productionListRepository = mock(ProductionListRepository.class);
+        BoardTypeRepository boardTypeRepository = mock(BoardTypeRepository.class);
+        ThicknessRepository thicknessRepository = mock(ThicknessRepository.class);
+        WidthRepository widthRepository = mock(WidthRepository.class);
+        GypsumBoardRepository gypsumBoardRepository = mock(GypsumBoardRepository.class);
+        BoardProductionRepository boardProductionRepository = mock(BoardProductionRepository.class);
+        PlanRepository planRepository = mock(PlanRepository.class);
+        ShiftRepository repository = mock(ShiftRepository.class);
+        TypesRepository typesRepository = mock(TypesRepository.class);
+        TradeMarkRepository tradeMarkRepository = mock(TradeMarkRepository.class);
+
+        // Создаем экземпляр сервиса, передавая в него заглушки репозиториев
+        GypsumBoardService gypsumBoardService = new GypsumBoardService(
+                repository, typesRepository, tradeMarkRepository, boardTypeRepository,
+                thicknessRepository, widthRepository, gypsumBoardRepository,
+                boardProductionRepository, productionListRepository, planRepository);
+
+        // Подготавливаем тестовые данные
+        List<BoardProduction> boardProductions = new ArrayList<>();
+
+        List<Plan> planList = new ArrayList<>();
+
+        when(gypsumBoardService.getBoardProductionByDate(startDate, endDate)).thenReturn(boardProductions);
+        when(gypsumBoardService.getPlanByDate(startDate, endDate)).thenReturn(planList);
+
+        // Вызываем метод, который мы тестируем
+        List<GypsumBoardProductionData> result = gypsumBoardService.getAllGypsumBoardsByDate(startDate, endDate);
+
+        // Проверяем, что результат соответств
+        assertEquals("Нет данных", result.get(0).getBoardTitle());
+
+
+    }
+
+
 }
