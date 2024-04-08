@@ -26,6 +26,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -152,6 +154,7 @@ public class GypsumBoardServiceIntegrationTest {
         assertTrue(result.containsAll(expectedBoardProductions));
     }
 
+
     @Test
     @DisplayName("Тест получения данных по производству")
     void testGetProductionData() {
@@ -259,12 +262,16 @@ public class GypsumBoardServiceIntegrationTest {
         );
 
         List<Plan> planList = Arrays.asList(
-                new Plan(1, LocalDate.parse("2024-01-01 8:00"), board, 10000),
-                new Plan(2, LocalDate.parse("2024-01-02 8:00"), board, 20000)
-        );
+                new Plan(1, Utils.convertStringToDate("2024-01-01").toLocalDate(), board, 10000),
+                new Plan(2, Utils.convertStringToDate("2024-01-02").toLocalDate(), board, 20000)
 
-        when(gypsumBoardService.getBoardProductionByDate(startDate, endDate)).thenReturn(boardProductions);
-        when(gypsumBoardService.getPlanByDate(startDate, endDate)).thenReturn(planList);
+        );
+        List<Long> board_ids = List.of(1L);
+
+        when(productionListRepository.findIdsInDateRange(Utils.convertStringToDate(startDate), Utils.convertStringToDate(endDate))).thenReturn(board_ids);
+        when(boardProductionRepository.findAllByProductionListIdIn(board_ids)).thenReturn(boardProductions);
+        when(planRepository.findIdsInDateRange(Utils.convertStringToDate(startDate).toLocalDate(), Utils.convertStringToDate(endDate).toLocalDate())).thenReturn(List.of(1));
+        when(planRepository.findAllById(any())).thenReturn(planList);
 
         // Вызываем метод, который мы тестируем
         List<GypsumBoardProductionData> result = gypsumBoardService.getAllGypsumBoardsByDate(startDate, endDate);

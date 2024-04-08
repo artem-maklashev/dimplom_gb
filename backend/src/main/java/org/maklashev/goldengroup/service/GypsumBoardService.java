@@ -41,57 +41,57 @@ public class GypsumBoardService extends MyService {
     }
 
 
-    public List<BoardType> getAllBoardTypes() {
-        return boardTypeRepository.findAll();
-    }
-
-
-    public BoardType getBoardTypeById(int id) {
-        Optional<BoardType> optionalBoardType = boardTypeRepository.findById(id);
-        return optionalBoardType.orElse(null);
-    }
-
-
-    public void SaveBoardType(BoardType boardType) {
-        boardTypeRepository.save(boardType);
-    }
-
-
-    public List<Thickness> getAllThickness() {
-        return thicknessRepository.findAll();
-    }
-
-
-    public Thickness getThicknessById(int id) {
-        Optional<Thickness> optionalThickness = thicknessRepository.findById(id);
-        return optionalThickness.orElse(null);
-    }
-
-
-    public void SaveThickness(Thickness thickness) {
-        thicknessRepository.save(thickness);
-    }
-
-
-    public List<Width> getAllWidth() {
-        return widthRepository.findAll();
-    }
-
-
-    public Width getWidthById(int id) {
-        Optional<Width> optionalWidth = widthRepository.findById(id);
-        return optionalWidth.orElse(null);
-    }
-
-
-    public void SaveWidth(Width width) {
-        widthRepository.save(width);
-    }
-
-
-    public List<GypsumBoard> getAllGypsumBoards() {
-        return gypsumBoardRepository.findAll();
-    }
+//    public List<BoardType> getAllBoardTypes() {
+//        return boardTypeRepository.findAll();
+//    }
+//
+//
+//    public BoardType getBoardTypeById(int id) {
+//        Optional<BoardType> optionalBoardType = boardTypeRepository.findById(id);
+//        return optionalBoardType.orElse(null);
+//    }
+//
+//
+//    public void SaveBoardType(BoardType boardType) {
+//        boardTypeRepository.save(boardType);
+//    }
+//
+//
+//    public List<Thickness> getAllThickness() {
+//        return thicknessRepository.findAll();
+//    }
+//
+//
+//    public Thickness getThicknessById(int id) {
+//        Optional<Thickness> optionalThickness = thicknessRepository.findById(id);
+//        return optionalThickness.orElse(null);
+//    }
+//
+//
+//    public void SaveThickness(Thickness thickness) {
+//        thicknessRepository.save(thickness);
+//    }
+//
+//
+//    public List<Width> getAllWidth() {
+//        return widthRepository.findAll();
+//    }
+//
+//
+//    public Width getWidthById(int id) {
+//        Optional<Width> optionalWidth = widthRepository.findById(id);
+//        return optionalWidth.orElse(null);
+//    }
+//
+//
+//    public void SaveWidth(Width width) {
+//        widthRepository.save(width);
+//    }
+//
+//
+//    public List<GypsumBoard> getAllGypsumBoards() {
+//        return gypsumBoardRepository.findAll();
+//    }
 
 
     public List<GypsumBoardProductionData> getAllGypsumBoardsByDate(String startDateValue, String endDateValue) {
