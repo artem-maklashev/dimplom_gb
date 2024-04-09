@@ -1,28 +1,33 @@
-version: '3.4'
-
-networks:
-  app-network:
-    driver: bridge
-
 services:
-#  client:
-#    image: ${DOCKER_REGISTRY-}client
-#    container_name: client.app
-#    build:
-#      context: ./client
-#      dockerfile: Dockerfile
-#    environment:
-#      - REACT_APP_API_URL="http://backend:8080/api"
-#    networks:
-#      - app-network
-#    depends_on:
-#      - backend
-#    ports:
-#      - "3000:3000"
+  eureka-server:
+    image: ${DOCKER_REGISTRY-}eureka-server
+    container_name: eureka-server
+    build:
+      context: ./eurekaServer
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - app-network
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    container_name: gateway
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+    ports:
+      -  "8080:8080"
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    networks:
+      - app-network
 
   backend-db:
-    image: mysql:latest
-    container_name: backend.db
+    image: mysql
+    container_name: backend-db
     environment:
       - MYSQL_ROOT_PASSWORD=402986
       - MYSQL_DATABASE=goldengroup
@@ -36,17 +41,40 @@ services:
 
   backend:
     image: ${DOCKER_REGISTRY-}backend
-    container_name: backend.app
+    container_name: backend-app
     build:
       context: ./backend
       dockerfile: Dockerfile
     depends_on:
-      - backend-db
+      - gateway
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://backend-db:3306/goldengroup
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 402986
+      - SPRING_DATASOURCE_URL=jdbc:mysql://backend-db:3306/goldengroup
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=402986
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
     networks:
       - app-network
+
+  authorization-service:
+    image: ${DOCKER_REGISTRY-}authorization
+    container_name: authorization-app
+    build:
+      context: ./authorization
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+    ports:
+      - "8079:8079"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://backend-db:3306/jwt_authorization
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=402986
+      - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

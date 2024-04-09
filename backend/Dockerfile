@@ -9,6 +9,6 @@ COPY target/goldengroup-0.0.1-SNAPSHOT.jar /tmp/goldengroup-0.0.1-SNAPSHOT.jar
 
 WORKDIR /tmp
 
-EXPOSE 8080
+EXPOSE 8081
 
 CMD ["java", "-jar", "/tmp/goldengroup-0.0.1-SNAPSHOT.jar"]
