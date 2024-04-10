@@ -43,26 +43,33 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                     throw new RuntimeException("missing authorization header");
                 }
             }
-            String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+            String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
             if(authHeader != null && authHeader.startsWith("Bearer ")) {
                 authHeader = authHeader.substring(7);
             }
             try {
-
-//
-//                String url = "http://AUTHORIZATION-SERVICE/validate";
-//                Map<String, String> params = new HashMap<>();
-//                params.put("token", authHeader);
-//               template.getForObject(url, String.class, params);
-//               template.getForObject("http://AUTHORIZATION-SERVICE/validate?token=" + authHeader, String.class);
-               template.getForObject("http://localhost:8079/auth/validate?token=" + authHeader, String.class);
+                String authorizationServiceUrl = determineAuthorizationServiceUrl();
+                String validateUrl = authorizationServiceUrl + "/auth/validate?token=" + authHeader;
+                template.getForObject(validateUrl, String.class);
             } catch (Exception e) {
                 System.out.println("invalid access ... !");
                 e.printStackTrace();
-                throw new RuntimeException("un authorized access to application");
+                throw new RuntimeException("unauthorized access to application");
             }
             return chain.filter(exchange);
         });
+    }
+
+    private String determineAuthorizationServiceUrl() {
+        // Проверяем, запущено ли приложение в Docker
+        String dockerEnv = System.getenv("DOCKER_ENV");
+        if (dockerEnv != null && dockerEnv.equalsIgnoreCase("true")) {
+            // Возвращаем URL для Docker-окружения
+            return "http://AUTHORIZATION-SERVICE:8079";
+        } else {
+            // Возвращаем локальный URL
+            return "http://localhost:8079";
+        }
     }
 
     public static class Config {}

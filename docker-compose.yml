@@ -21,6 +21,7 @@ services:
     ports:
       -  "8080:8080"
     environment:
+      - DOCKER_ENV=true
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
     networks:
       - app-network
@@ -39,6 +40,20 @@ services:
       - app-network
     command: --lower-case-table-names=2
 
+  auth-db:
+    image: mysql
+    container_name: auth-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=402986
+      - MYSQL_DATABASE=jwt_authorization
+    volumes:
+      - ./mysql_auth_bd:/var/lib/mysql
+    ports:
+      - "33007:3306"
+    networks:
+      - app-network
+    command: --lower-case-table-names=2
+
   backend:
     image: ${DOCKER_REGISTRY-}backend
     container_name: backend-app
@@ -48,9 +63,9 @@ services:
     depends_on:
       - gateway
     ports:
-      - "8081:8081"
+      - "8078:8078"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://backend-db:3306/goldengroup
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:33006/goldengroup
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=402986
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
@@ -68,10 +83,11 @@ services:
     ports:
       - "8079:8079"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://backend-db:3306/jwt_authorization
+      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:33007/jwt_authorization
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=402986
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+      - spring.jpa.hibernate.ddl-auto=update
     networks:
       - app-network
 
