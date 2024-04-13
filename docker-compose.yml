@@ -19,7 +19,7 @@ services:
     depends_on:
       - eureka-server
     ports:
-      -  "8080:8080"
+      - "8080:8080"
     environment:
       - DOCKER_ENV=true
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
@@ -61,11 +61,12 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     depends_on:
+      - eureka-server
       - gateway
     ports:
       - "8078:8078"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:33006/goldengroup
+      - SPRING_DATASOURCE_URL=jdbc:mysql://backend-db:3306/goldengroup
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=402986
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
@@ -80,10 +81,11 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - eureka-server
+      - gateway
     ports:
       - "8079:8079"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:33007/jwt_authorization
+      - SPRING_DATASOURCE_URL=jdbc:mysql://auth-db:3306/jwt_authorization
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=402986
       - eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
